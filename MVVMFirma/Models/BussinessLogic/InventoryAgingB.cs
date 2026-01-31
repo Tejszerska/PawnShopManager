@@ -1,5 +1,6 @@
 using MVVMFirma.Models.BussinesLogic;
 using MVVMFirma.Models.EntitiesForView;
+using MVVMFirma.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;

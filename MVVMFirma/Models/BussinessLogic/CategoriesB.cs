@@ -1,5 +1,6 @@
 using MVVMFirma.Models.BussinesLogic;
 using MVVMFirma.Models.EntitiesForView;
+using MVVMFirma.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 namespace MVVMFirma.Models.BussinessLogic
 {
     public class CategoriesB : DatabaseClass
+
     {
         #region Constructor
         public CategoriesB(PawnShopEntities pawnShopEntities) : base(pawnShopEntities)

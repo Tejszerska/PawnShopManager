@@ -21,9 +21,8 @@ namespace MVVMFirma.Models
         public Nullable<System.DateTime> shift_end { get; set; }
         public string notes { get; set; }
         public int history_id { get; set; }
+        public bool is_active { get; set; }
     
-        public virtual Branches Branches { get; set; }
         public virtual Employees Employees { get; set; }
-        public virtual RecordHistory RecordHistory { get; set; }
     }
 }

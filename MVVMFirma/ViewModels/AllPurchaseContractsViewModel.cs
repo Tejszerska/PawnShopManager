@@ -94,7 +94,7 @@ namespace MVVMFirma.ViewModels
         public AllPurchaseContractsViewModel()
             : base()
         {
-            base.DisplayName = "BranPurchaseContractsches";
+            base.DisplayName = "Purchase Contracts";
 
         }
 

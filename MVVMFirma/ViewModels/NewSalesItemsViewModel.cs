@@ -15,6 +15,7 @@ namespace MVVMFirma.ViewModels
         {
             base.DisplayName = "New Sales Items";
             item = new SalesItems();
+
         }
         #region Properties
 

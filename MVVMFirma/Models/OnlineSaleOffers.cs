@@ -40,6 +40,5 @@ namespace MVVMFirma.Models
         public virtual RecordHistory RecordHistory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sales> Sales { get; set; }
-        public virtual SalesStatuses SalesStatuses { get; set; }
     }
 }

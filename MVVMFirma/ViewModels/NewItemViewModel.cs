@@ -1,11 +1,15 @@
+using GalaSoft.MvvmLight.Messaging;
 using MVVMFirma.Helper;
 using MVVMFirma.Models;
+using MVVMFirma.Models.Validators;
 using MVVMFirma.ViewModels.Abstract;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace MVVMFirma.ViewModels
 {
-    public class NewItemViewModel : OneViewModel<Items>
+    public class NewItemViewModel : OneViewModel<Items>, IDataErrorInfo
     {
         #region Constructor
         public NewItemViewModel()
@@ -130,7 +134,7 @@ namespace MVVMFirma.ViewModels
             }
         }
 
-        public int Acquisition_Source_Id
+        public int? Acquisition_Source_Id
         {
             get
             {
@@ -146,7 +150,7 @@ namespace MVVMFirma.ViewModels
             }
         }
 
-        public int Current_Branch_Id
+        public int? Current_Branch_Id
         {
             get
             {
@@ -178,6 +182,42 @@ namespace MVVMFirma.ViewModels
             }
         }
 
+        public IQueryable<Categories> CategoriesItems
+        {
+            get
+            {
+                return pawnShopEntities.Categories.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
+        public IQueryable<ItemConditions> ItemConditionsItems
+        {
+            get
+            {
+                return pawnShopEntities.ItemConditions.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
+        public IQueryable<AcquisitionSourceTypes> AcquisitionSourceTypesItems
+        {
+            get
+            {
+                return pawnShopEntities.AcquisitionSourceTypes.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
+        public IQueryable<ItemStatuses> ItemStatusesItems
+        {
+            get
+            {
+                return pawnShopEntities.ItemStatuses.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
+        public IQueryable<Branches> BranchesItems
+        {
+            get
+            {
+                return pawnShopEntities.Branches.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -187,7 +227,50 @@ namespace MVVMFirma.ViewModels
             item.history_id = createRecordHistory();
             pawnShopEntities.Items.Add(item);
             pawnShopEntities.SaveChanges();
+
+            Messenger.Default.Send(item); // for NewPawnLoanView to receive the new item
+
         }
+        #endregion
+        #region Validation (IDataErrorInfo Members)
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string message = null;
+
+                if (columnName == "Name")
+                {
+                    message = StringValidator.CheckIfStartsWithCapitalLetter(this.Name);
+                }
+                if (columnName == "Estimated_Value")
+                {
+                    message = BusinessValidator.IsGraterThanZero(this.Estimated_Value);
+                }
+                if (columnName == "Sale_Price")
+                {
+                    message = BusinessValidator.IsGraterThanZero(this.Sale_Price);
+                }
+
+                return message;
+            }
+        }
+
+        public override bool IsValid()
+        {
+            if (this["Name"] == null && this["Sale_Price"] == null && this["Estimated_Value"] == null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         #endregion
     }
 }

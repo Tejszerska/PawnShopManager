@@ -40,7 +40,7 @@ namespace MVVMFirma.ViewModels
         public AllPawnLoanItemsViewModel()
             : base()
         {
-            base.DisplayName = "PawnLoanItems";
+            base.DisplayName = "Pawn Loan Items";
 
         }
 

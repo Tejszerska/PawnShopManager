@@ -25,8 +25,6 @@ namespace MVVMFirma.Models
             this.ContractStatuses = new HashSet<ContractStatuses>();
             this.DocumentTypes = new HashSet<DocumentTypes>();
             this.EmployeeRoles = new HashSet<EmployeeRoles>();
-            this.Employees = new HashSet<Employees>();
-            this.EmployeeShifts = new HashSet<EmployeeShifts>();
             this.FinalizationSources = new HashSet<FinalizationSources>();
             this.InterestRates = new HashSet<InterestRates>();
             this.ItemConditions = new HashSet<ItemConditions>();
@@ -70,10 +68,6 @@ namespace MVVMFirma.Models
         public virtual ICollection<DocumentTypes> DocumentTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeRoles> EmployeeRoles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employees> Employees { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeeShifts> EmployeeShifts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FinalizationSources> FinalizationSources { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

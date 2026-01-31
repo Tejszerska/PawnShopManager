@@ -1,14 +1,22 @@
+using GalaSoft.MvvmLight.Messaging;
+using MVVMFirma.Helper;
 using MVVMFirma.Models;
+using MVVMFirma.Models.EntitiesForView;
+using MVVMFirma.Models.Validators;
 using MVVMFirma.ViewModels.Abstract;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace MVVMFirma.ViewModels
 {
-    public class NewPawnLoanViewModel : OneViewModel<PawnLoans>
+    public class NewPawnLoanViewModel : OneViewModel<PawnLoans>, IDataErrorInfo
     {
         #region Constructor
         public NewPawnLoanViewModel()
@@ -16,6 +24,15 @@ namespace MVVMFirma.ViewModels
         {
             base.DisplayName = "New Pawn Loan";
             item = new PawnLoans();
+            item.start_date = DateTime.Now;
+            item.due_date = DateTime.Now;
+
+            PawnLoanItemsList = new ObservableCollection<PawnLoanItemExtended>();
+            Messenger.Default.Register<Items>(this, AddItemFromModal);
+            Messenger.Default.Register<ClientsExtendedView>(this, GetSelectedClient);
+
+
+
         }
         #endregion
         #region Properties
@@ -136,16 +153,192 @@ namespace MVVMFirma.ViewModels
                 }
             }
         }
+        /// LAB5
+        public IQueryable<ContractStatuses> ContractStatusesItems
+        {
+            get
+            {
+                return pawnShopEntities.ContractStatuses.Where(x => x.is_active == true && x.contract_type == "PAWN_LOAN").ToList().AsQueryable();
+            }
+        }
+        public IQueryable<InterestRates> InterestRatesItems
+        {
+            get
+            {
+                return pawnShopEntities.InterestRates.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
+        private ObservableCollection<PawnLoanItemExtended> _PawnLoanItemsList;
+        public ObservableCollection<PawnLoanItemExtended> PawnLoanItemsList
+        {
+            get { return _PawnLoanItemsList; }
+            set
+            {
+                _PawnLoanItemsList = value;
+                OnPropertyChanged(() => PawnLoanItemsList);
+            }
+        }
 
+        private string _ClientName;
+        public string ClientName
+        {
+            get { return _ClientName; }
+            set
+            {
+                if (value != _ClientName)
+                {
+                    _ClientName = value;
+                    OnPropertyChanged(() => ClientName);
+                }
+            }
+        }
+
+        private string _ClientDoc;
+        public string ClientDoc
+        {
+            get { return _ClientDoc; }
+            set
+            {
+                if (value != _ClientDoc)
+                {
+                    _ClientDoc = value;
+                    OnPropertyChanged(() => ClientDoc);
+                }
+            }
+        }
         #endregion
 
         #region Commands
         public override void Save()
         {
+            if (PawnLoanItemsList == null || PawnLoanItemsList.Count == 0)
+            {
+                MessageBox.Show("Add items first!");
+                return;
+            }
+
+            RecalculateTotal();
+
+            item.is_active = true;
             item.history_id = createRecordHistory();
             pawnShopEntities.PawnLoans.Add(item);
             pawnShopEntities.SaveChanges();
+
+            foreach (PawnLoanItemExtended viewItem in PawnLoanItemsList)
+            {
+                PawnLoanItems dbItem = new PawnLoanItems
+                {
+                    pawn_loan_id = item.pawn_loan_id,
+                    item_id = viewItem.ItemId,
+                    loan_amount_for_item = viewItem.LoanAmount,
+                    notes = "", // uzupełnic view
+                    history_id = createRecordHistory()
+                };
+
+                pawnShopEntities.PawnLoanItems.Add(dbItem);
+                Items originalItem = pawnShopEntities.Items.FirstOrDefault(x => x.item_id == viewItem.ItemId);
+                if (originalItem != null)
+                {
+                    originalItem.acquisition_source_id = item.pawn_loan_id;
+                }
+            }
+            pawnShopEntities.SaveChanges();
         }
+
+        private ICommand _AddItemCommand;
+        public ICommand AddItemCommand
+        {
+            get
+            {
+                if (_AddItemCommand == null)
+                    _AddItemCommand = new BaseCommand(() => Messenger.Default.Send("PawnItem Add Modal"));
+                return _AddItemCommand;
+            }
+        }
+
+        private ICommand _ShowClientsCommand;
+        public ICommand ShowClientsCommand
+        {
+            get
+            {
+                if (_ShowClientsCommand == null)
+                    _ShowClientsCommand = new BaseCommand(() => Messenger.Default.Send("Clients Show"));
+                return _ShowClientsCommand;
+            }
+        }
+        #endregion
+        #region Helpers
+
+        private void AddItemFromModal(Items newItem)
+        {
+            if (newItem == null) return;
+
+            PawnLoanItemExtended extendedItem = new PawnLoanItemExtended
+            {
+                ItemId = newItem.item_id,
+                ItemName = newItem.name,
+                LoanAmount = newItem.estimated_value
+            };
+
+            PawnLoanItemsList.Add(extendedItem);
+            RecalculateTotal();
+
+        }
+
+        private void RecalculateTotal()
+        {
+            if (PawnLoanItemsList == null) return;
+
+            decimal sum = 0;
+            foreach (var item in PawnLoanItemsList)
+            {
+                sum += item.LoanAmount;
+            }
+            Total_Loan_Amount = sum;
+        }
+        private void GetSelectedClient(ClientsExtendedView client)
+        {
+            if (client != null)
+            {
+                Client_Id = client.ClientId;
+
+                ClientName = client.FirstName + " " + client.LastName;
+                ClientDoc = client.DocumentNumber;
+            }
+        }
+        #endregion
+        #region Validation (IDataErrorInfo Members)
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string message = null;
+
+               
+                if (columnName == "Due_Date")
+                {
+                    message = BusinessValidator.IsDatePastOrToday(this.Due_Date);
+                }
+
+                return message;
+            }
+        }
+
+        public override bool IsValid()
+        {
+            if (this["Due_date"] == null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         #endregion
     }
 }

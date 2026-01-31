@@ -1,3 +1,4 @@
+using GalaSoft.MvvmLight.Messaging;
 using MVVMFirma.Helper;
 using MVVMFirma.Views;
 using System;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MVVMFirma.ViewModels
 {
@@ -39,6 +41,7 @@ namespace MVVMFirma.ViewModels
         private ICommand _ShowCategoryStatisticsCommand;        
         private ICommand _ShowItemsCommand;
         private ICommand _ShowPawnItemsCommand;
+        private ICommand _AddItemsCommand;
 
         //  Sales Menu
         private ICommand _AddSalesCommand;
@@ -240,6 +243,18 @@ namespace MVVMFirma.ViewModels
             }
         }
 
+        public ICommand AddItemsCommand
+        {
+            get
+            {
+                if (_AddItemsCommand == null)
+                {
+                    _AddItemsCommand = new BaseCommand(() => AddItems());
+                }
+                return _AddItemsCommand;
+            }
+        }
+
         // Sales Menu
 
         public ICommand AddSalesCommand
@@ -436,6 +451,11 @@ namespace MVVMFirma.ViewModels
         {
             this.ShowAllView<AllPawnLoanItemsViewModel>();
         }
+
+        private void AddItems()
+        {
+            this.CreateView(new NewItemViewModel());
+        }
         // Sales Menu 
         private void AddSales()
         {
@@ -526,6 +546,8 @@ namespace MVVMFirma.ViewModels
 
         private List<CommandViewModel> CreateCommands()
         {
+            Messenger.Default.Register<string>(this, open);
+
             return new List<CommandViewModel>
             {
                 new CommandViewModel("Pawn Loans Overview", ShowPawnLoanOverviewCommand, "\uE9D2"),
@@ -606,6 +628,196 @@ namespace MVVMFirma.ViewModels
             ICollectionView collectionView = CollectionViewSource.GetDefaultView(this.Workspaces);
             if (collectionView != null)
                 collectionView.MoveCurrentTo(workspace);
+        }
+
+        private void open(string name)
+        {
+            if (name == "Pawn Loans Add") AddPawnLoan();
+            if (name == "Purchase Contracts Add") AddPurchaseContract();
+            if (name == "Clients Add") AddClients();
+            if (name == "Interest Rates Add") AddInterestRates();
+            if (name == "Categories Add") AddCategory();
+            if (name == "Items Add") AddItems();
+            if (name == "Sales Add") AddSales();
+            if (name == "Online Offers Add") AddOnlineOffers();
+            if (name == "Payments Add") AddPayments();
+            if (name == "Branches Add") AddBranches();
+            if (name == "Employees Add") AddEmployees();
+
+            if (name == "Payments Show") ShowModalPayments();
+            if (name == "Items Show") ShowModalItems();
+            if (name == "Offers Show") ShowModalOffers();
+            if (name == "Items Add Modal") ShowModalNewItem();
+            if (name == "PawnItem Add Modal") ShowModalNewPawnItem();
+            if (name == "PurchaseItem Add Modal") ShowModalNewPurchaseItem();
+            if (name == "Clients Show") ShowModalClients();
+
+
+
+        }
+        #endregion
+
+        #region Modal windows
+        //for adding with FK
+
+        private void ShowModalClients()
+        {
+            AllClientsViewModel vm = new AllClientsViewModel();
+            AllClientsView view = new AllClientsView();
+
+            view.DataContext = vm;
+
+            Window window = new Window
+            {
+                Title = "Select Client",
+                Content = view,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Owner = Application.Current.MainWindow,
+                ResizeMode = ResizeMode.NoResize
+            };
+
+            window.SetResourceReference(Window.BackgroundProperty, "WorkspaceBg");
+
+            vm.RequestClose += (s, e) => window.Close();
+            window.ShowDialog();
+        }
+        private void ShowModalPayments()
+        {
+           AllPaymentsViewModel vm = new AllPaymentsViewModel();
+           AllPayments view = new AllPayments();
+
+              view.DataContext = vm;
+            Window window = new Window
+            {
+                Title = "Select Payment",
+                Content = view,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Owner = Application.Current.MainWindow,
+                ResizeMode = ResizeMode.NoResize
+            };
+            window.SetResourceReference(Window.BackgroundProperty, "WorkspaceBg");
+
+            vm.RequestClose += (s, e) => window.Close();
+            window.ShowDialog();
+        }
+
+        private void ShowModalItems()
+        {
+            AllItemsViewModel vm = new AllItemsViewModel();
+            AllItems  view = new AllItems();
+
+            view.DataContext = vm;
+            Window window = new Window
+            {
+                Title = "Select Item",
+                Content = view,
+                SizeToContent = SizeToContent.Manual,
+                Height = 600,
+                Width = 1000,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Owner = Application.Current.MainWindow,
+                ResizeMode = ResizeMode.CanResize
+            };
+            window.SetResourceReference(Window.BackgroundProperty, "WorkspaceBg");
+
+            vm.RequestClose += (s, e) => window.Close();
+            window.ShowDialog();
+        }
+        private void ShowModalOffers()
+        {
+            AllOnlineSaleOffersViewModel vm = new AllOnlineSaleOffersViewModel();
+            AllOnlineSaleOffers view = new AllOnlineSaleOffers(); 
+
+            view.DataContext = vm;
+
+            Window window = new Window
+            {
+                Title = "Select Online Offer",
+                Content = view,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Owner = Application.Current.MainWindow,
+                ResizeMode = ResizeMode.NoResize
+            };
+
+            window.SetResourceReference(Window.BackgroundProperty, "WorkspaceBg");
+           
+            vm.RequestClose += (s, e) => window.Close();
+
+            window.ShowDialog();
+        }
+
+        private void ShowModalNewItem()
+        {
+            NewItemViewModel vm = new NewItemViewModel();
+            NewItem view = new NewItem(); 
+
+            view.DataContext = vm;
+
+            Window window = new Window
+            {
+                Title = "Create New Item", 
+                Content = view,            
+                SizeToContent = SizeToContent.WidthAndHeight,
+                ResizeMode = ResizeMode.NoResize, 
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Owner = Application.Current.MainWindow 
+            };
+
+              window.SetResourceReference(Window.BackgroundProperty, "WorkspaceBg");
+            
+
+              vm.RequestClose += (s, e) => window.Close();
+
+            window.ShowDialog();
+        }
+
+        private void ShowModalNewPawnItem()
+        {
+            NewPawnLoanItemViewModel vm = new NewPawnLoanItemViewModel();
+            NewPawnLoanItemView view = new NewPawnLoanItemView();
+            view.DataContext = vm;
+
+            Window window = new Window
+            {
+                Title = "Add Item to Pawn",
+                Content = view,
+                SizeToContent = SizeToContent.Manual,
+                Height = 600,
+                Width = 600,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Owner = Application.Current.MainWindow,
+                ResizeMode = ResizeMode.CanResize
+            };
+            window.SetResourceReference(Window.BackgroundProperty, "WorkspaceBg");
+
+            vm.RequestClose += (s, e) => window.Close();
+            window.ShowDialog();
+        }
+
+        private void ShowModalNewPurchaseItem()
+        {
+            NewPurchaseContractItemViewModel vm = new NewPurchaseContractItemViewModel();
+            NewPurchaseContractItem view = new NewPurchaseContractItem();
+            view.DataContext = vm;
+
+            Window window = new Window
+            {
+                Title = "Add Item to Purchase",
+                Content = view,
+                SizeToContent = SizeToContent.Manual,
+                Height = 600,
+                Width = 600,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Owner = Application.Current.MainWindow,
+                ResizeMode = ResizeMode.CanResize
+            };
+            window.SetResourceReference(Window.BackgroundProperty, "WorkspaceBg");
+
+            vm.RequestClose += (s, e) => window.Close();
+            window.ShowDialog();
         }
         #endregion
     }

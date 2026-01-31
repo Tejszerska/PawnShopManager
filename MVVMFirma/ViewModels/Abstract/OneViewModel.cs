@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace MVVMFirma.ViewModels.Abstract
@@ -50,9 +51,21 @@ namespace MVVMFirma.ViewModels.Abstract
         }
         private void saveAndClose()
         {
-            Save();
-            OnRequestClose();
+            if (IsValid())
+            {
+                Save();
+                MessageBox.Show("Saved in database");
+                OnRequestClose();
+            }
+            else
+                MessageBox.Show("Data is not valid. Cannot save to database.");
         }
         #endregion
+        #region Validation
+        public virtual bool IsValid()
+        {
+            return true;
+        }
+        #endregion //Validation
     }
 }

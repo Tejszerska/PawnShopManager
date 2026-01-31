@@ -24,13 +24,18 @@
 
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="First name" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,8,0,8" Text="{Binding Path=First_name, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,8,0,8" Text="{Binding Path=First_name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
         <Label Grid.Column="0" Grid.Row="1" Content="Last name" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Margin="0,8,0,8" Text="{Binding Path=Last_name, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="0,8,0,8" Text="{Binding Path=Last_name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
         <Label Grid.Column="0" Grid.Row="2" Content="Document type" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Margin="0,8,0,8" Text="{Binding Path=Document_type, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Row="2" Grid.Column="2" Height="28"
+            ItemsSource="{Binding DocumentTypesItems}"
+            DisplayMemberPath="name"
+            SelectedValuePath="document_type_id"
+            SelectedValue="{Binding Document_type, Mode=TwoWay}"
+            VerticalContentAlignment="Center"/>
         
         <Label Grid.Column="0" Grid.Row="3" Content="Document number" Margin="0,8,0,8"/>
         <TextBox Grid.Column="1" Grid.Row="3" Margin="0,8,0,8" Text="{Binding Path=Document_number, UpdateSourceTrigger=PropertyChanged}"/>
@@ -40,7 +45,13 @@
 
         <Label Grid.Column="0" Grid.Row="5" Content="Address source" Margin="0,8,0,8"/>
         <TextBox Grid.Column="1" Grid.Row="5" Margin="0,8,0,8" Text="{Binding Path=Address_source, UpdateSourceTrigger=PropertyChanged}"/>
-
+        <ComboBox Grid.Row="5" Grid.Column="2"  Height="28"
+    ItemsSource="{Binding AddressSourcesItems}"
+    DisplayMemberPath="name"
+    SelectedValuePath="address_source_id"
+    SelectedValue="{Binding Address_source, Mode=TwoWay}"
+    VerticalContentAlignment="Center"/>
+        
         <Label Grid.Column="0" Grid.Row="6" Content="Phone" Margin="0,8,0,8"/>
         <TextBox Grid.Column="1" Grid.Row="6" Margin="0,8,0,8" Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
         

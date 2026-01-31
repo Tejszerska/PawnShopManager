@@ -6,29 +6,53 @@
              xmlns:local="clr-namespace:MVVMFirma.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="0" Content="Pawn loan ID" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,8,0,8" Text="{Binding Path=Pawn_Loan_Id, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="0" Content="Item Name"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="0,5" Text="{Binding Name}"/>
 
-        <Label Grid.Column="0" Grid.Row="1" Content="Item ID" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Margin="0,8,0,8" Text="{Binding Path=Item_Id, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="1" Content="Category"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" Margin="0,5"
+                  ItemsSource="{Binding CategoriesItems}"
+                  DisplayMemberPath="name"
+                  SelectedValuePath="category_id"
+                  SelectedValue="{Binding Category_Id}"/>
 
-        <Label Grid.Column="0" Grid.Row="2" Content="Loan amount for item" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Margin="0,8,0,8" Text="{Binding Path=Loan_Amount_For_Item, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="2" Content="Condition"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="0,5"
+                  ItemsSource="{Binding ItemConditionsItems}"
+                  DisplayMemberPath="name"
+                  SelectedValuePath="condition_id"
+                  SelectedValue="{Binding Condition_Id}"/>
 
-        <Label Grid.Column="0" Grid.Row="3" Content="Notes" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="3" Margin="0,8,0,8" Text="{Binding Path=Notes, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="3" Content="Description"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="0,5" Text="{Binding Description}" Height="50" TextWrapping="Wrap"/>
+
+        <Label Grid.Row="4" Content="Market Value"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="0,5" Text="{Binding Sale_Price, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+
+        <Label Grid.Row="5" Content="Loan Amount" FontWeight="Bold"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Margin="0,5" FontWeight="Bold" 
+                 Text="{Binding Estimated_Value, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+
+        <Label Grid.Row="6" Content="Branch"/>
+        <ComboBox Grid.Row="6" Grid.Column="1" Margin="0,5"
+                  ItemsSource="{Binding BranchesItems}"
+                  DisplayMemberPath="name"
+                  SelectedValuePath="branch_id"
+                  SelectedValue="{Binding Current_Branch_Id}"/>
     </Grid>
 </local:OneViewBase>

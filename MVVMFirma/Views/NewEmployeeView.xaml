@@ -19,16 +19,21 @@
 
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="First name" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,8,0,8" Text="{Binding Path=First_name, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,8,0,8" Text="{Binding Path=First_name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
 
         <Label Grid.Column="0" Grid.Row="1" Content="Last name" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Margin="0,8,0,8" Text="{Binding Path=Last_name, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="0,8,0,8" Text="{Binding Path=Last_name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
 
         <Label Grid.Column="0" Grid.Row="2" Content="Login" Margin="0,8,0,8"/>
         <TextBox Grid.Column="1" Grid.Row="2" Margin="0,8,0,8" Text="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label Grid.Column="0" Grid.Row="3" Content="Role" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="3" Margin="0,8,0,8" Text="{Binding Path=Role_id, UpdateSourceTrigger=PropertyChanged}"/>
-
+        <TextBox Grid.Column="1" Grid.Row="3" Margin="0,8,0,8" Text="{Binding Path=Role, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Row="3" Grid.Column="2" Height="28"
+  ItemsSource="{Binding EmployeeRolesItems}"
+  DisplayMemberPath="name"
+  SelectedValuePath="employee_role_id"
+  SelectedValue="{Binding Status_Id, Mode=TwoWay}"
+  VerticalContentAlignment="Center"/>
     </Grid>
 </local:OneViewBase>

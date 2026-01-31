@@ -17,7 +17,6 @@ namespace MVVMFirma.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Branches()
         {
-            this.EmployeeShifts = new HashSet<EmployeeShifts>();
             this.Items = new HashSet<Items>();
         }
     
@@ -29,8 +28,6 @@ namespace MVVMFirma.Models
         public int history_id { get; set; }
     
         public virtual RecordHistory RecordHistory { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeeShifts> EmployeeShifts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Items> Items { get; set; }
     }

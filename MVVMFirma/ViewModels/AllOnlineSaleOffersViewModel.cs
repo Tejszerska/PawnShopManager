@@ -1,3 +1,4 @@
+using GalaSoft.MvvmLight.Messaging;
 using MVVMFirma.Models;
 using MVVMFirma.Models.EntitiesForView;
 using MVVMFirma.ViewModels.Abstract;
@@ -84,6 +85,22 @@ public class AllOnlineSaleOffersViewModel : AllViewModel<OnlineSaleOffersExtende
                     Link  = sale.url
                 }
                 );
+        }
+
+        private OnlineSaleOffersExtendedView _SelectedOffer;
+        public OnlineSaleOffersExtendedView SelectedOffer
+        {
+            get { return _SelectedOffer; }
+            set
+            {
+                _SelectedOffer = value;
+                if (_SelectedOffer != null)
+                {
+                    Messenger.Default.Send(_SelectedOffer);
+                    OnRequestClose(); 
+                }
+                OnPropertyChanged(() => SelectedOffer);
+            }
         }
         #endregion
         #region Constructor

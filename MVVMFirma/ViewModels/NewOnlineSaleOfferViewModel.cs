@@ -1,14 +1,20 @@
+using GalaSoft.MvvmLight.Messaging;
+using MVVMFirma.Helper;
 using MVVMFirma.Models;
+using MVVMFirma.Models.EntitiesForView;
+using MVVMFirma.Models.Validators;
 using MVVMFirma.ViewModels.Abstract;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MVVMFirma.ViewModels
 {
-    public class NewOnlineSaleOfferViewModel : OneViewModel<OnlineSaleOffers>
+    public class NewOnlineSaleOfferViewModel : OneViewModel<OnlineSaleOffers>, IDataErrorInfo
     {
         #region Constructor
         public NewOnlineSaleOfferViewModel()
@@ -16,6 +22,11 @@ namespace MVVMFirma.ViewModels
         {
             base.DisplayName = "New Online Offer";
             item = new OnlineSaleOffers();
+            item.listing_date = DateTime.Now; 
+            item.expiration_date = DateTime.Now; 
+            item.views_count = 0;  
+            item.messages_count = 0;
+            Messenger.Default.Register<ItemsExtendedView>(this, getSelectedItem);
         }
         #endregion
         #region Properties
@@ -34,6 +45,35 @@ namespace MVVMFirma.ViewModels
                 }
             }
         }
+
+        private string _Item_name;
+        public string Item_name
+        {
+            get { return _Item_name; }
+            set
+            {
+                if (value != _Item_name)
+                {
+                    _Item_name = value;
+                    OnPropertyChanged(() => Item_name);
+                }
+            }
+        }
+
+        private string _Item_condition;
+        public string Item_condition
+        {
+            get { return _Item_condition; }
+            set
+            {
+                if (value != _Item_condition)
+                {
+                    _Item_condition = value;
+                    OnPropertyChanged(() => Item_condition);
+                }
+            }
+        }
+
 
         public int Platform_Id
         {
@@ -83,22 +123,7 @@ namespace MVVMFirma.ViewModels
             }
         }
 
-        public DateTime Listing_Date
-        {
-            get
-            {
-                return item.listing_date;
-            }
-            set
-            {
-                if (value != item.listing_date)
-                {
-                    item.listing_date = value;
-                    OnPropertyChanged(() => Listing_Date);
-                }
-            }
-        }
-
+        
         public DateTime Expiration_Date
         {
             get
@@ -147,38 +172,7 @@ namespace MVVMFirma.ViewModels
             }
         }
 
-        public int? Views_Count
-        {
-            get
-            {
-                return item.views_count;
-            }
-            set
-            {
-                if (value != item.views_count)
-                {
-                    item.views_count = value;
-                    OnPropertyChanged(() => Views_Count);
-                }
-            }
-        }
-
-        public int? Messages_Count
-        {
-            get
-            {
-                return item.messages_count;
-            }
-            set
-            {
-                if (value != item.messages_count)
-                {
-                    item.messages_count = value;
-                    OnPropertyChanged(() => Messages_Count);
-                }
-            }
-        }
-
+        
         public string Notes
         {
             get
@@ -194,6 +188,23 @@ namespace MVVMFirma.ViewModels
                 }
             }
         }
+
+        public IQueryable<OnlinePlatforms> OnlinePlatformsItems
+        {
+            get
+            {
+                return pawnShopEntities.OnlinePlatforms.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
+
+        public IQueryable<SalesStatuses> SalesStatusesItems
+        {
+            get
+            {
+                return pawnShopEntities.SalesStatuses.Where(x => x.is_active == true && x.sale_type == "ONLINE_SALE").ToList().AsQueryable();
+            }
+        }
+
         #endregion
         #region Commends
         // komendy przyciskow zapisz i zamknij
@@ -204,6 +215,63 @@ namespace MVVMFirma.ViewModels
             pawnShopEntities.OnlineSaleOffers.Add(item);
             pawnShopEntities.SaveChanges();
         }
+
+        private BaseCommand _ShowItems;
+        public ICommand ShowItems
+        {
+            get
+            {
+                if (_ShowItems == null) _ShowItems = new BaseCommand(() =>
+                    Messenger.Default.Send("Items Show")
+                    );
+                return _ShowItems;
+            }
+        }
+        #endregion
+        #region Helpers
+        public void getSelectedItem(ItemsExtendedView item)
+        {
+            Item_Id = item.ItemId;
+            Item_name = item.ItemName;
+            Item_condition = item.Condition;
+        }
+        #endregion
+        #region Validation (IDataErrorInfo Members)
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string message = null;
+
+                switch (columnName)
+                {
+                    case "Expiration_Date":
+                        message = BusinessValidator.IsDatePastOrToday(this.Expiration_Date);
+                        break;
+                    case "Listing_Price":
+                        message = BusinessValidator.IsGraterThanZero(this.Listing_Price);
+                        break;
+                }
+
+                return message;
+            }
+        }
+
+        public override bool IsValid()
+        {
+            if (this["Expiration_Date"] == null && this["Listing_Price"] == null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         #endregion
     }
 }

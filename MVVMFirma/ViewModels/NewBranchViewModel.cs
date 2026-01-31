@@ -1,15 +1,16 @@
 using MVVMFirma.Helper;
 using MVVMFirma.Models;
 using MVVMFirma.ViewModels.Abstract;
+using System.ComponentModel;
 using System.Windows.Input;
-
+using MVVMFirma.Models.Validators;
 namespace MVVMFirma.ViewModels
 {
-    public class NewBranchViewModel : OneViewModel<Branches>
+    public class NewBranchViewModel : OneViewModel<Branches>, IDataErrorInfo
     {
         #region Constructor
         public NewBranchViewModel()
-            :base( )
+            : base()
         {
             base.DisplayName = "New Branch";
             item = new Branches();
@@ -19,7 +20,8 @@ namespace MVVMFirma.ViewModels
         public string Name
         {
             get
-            {   return item.name;
+            {
+                return item.name;
             }
             set
             {
@@ -71,5 +73,29 @@ namespace MVVMFirma.ViewModels
             pawnShopEntities.SaveChanges();
         }
         #endregion
+        #region Validation
+        public string Error
+        {
+            get { return null; }
+        }
+        public string this[string name]
+        {
+            get
+            {
+                string message = null;
+
+                if (name == "Name")
+                {
+                    message = StringValidator.CheckIfStartsWithCapitalLetter(this.Name);
+                }
+                return message;
+            }
+        }
+        public override bool IsValid()
+        {  return this["Name"] == null;
+        }
+
+        #endregion
+
     }
 }

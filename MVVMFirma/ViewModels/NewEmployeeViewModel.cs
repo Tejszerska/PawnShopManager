@@ -1,14 +1,16 @@
 using MVVMFirma.Models;
+using MVVMFirma.Models.Validators;
 using MVVMFirma.ViewModels.Abstract;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MVVMFirma.ViewModels
 {
-    public class NewEmployeeViewModel : OneViewModel<Employees>
+    public class NewEmployeeViewModel : OneViewModel<Employees>, IDataErrorInfo
     {
         #region Constructor
         public NewEmployeeViewModel()
@@ -82,7 +84,13 @@ namespace MVVMFirma.ViewModels
                 }
             }
         }
-
+        public IQueryable<EmployeeRoles> EmployeeRolesItems
+        {
+            get
+            {
+                return pawnShopEntities.EmployeeRoles.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
         #endregion
         #region Commends
         // komendy przyciskow zapisz i zamknij
@@ -93,6 +101,43 @@ namespace MVVMFirma.ViewModels
             pawnShopEntities.Employees.Add(item);
             pawnShopEntities.SaveChanges();
         }
+        #endregion
+        #region Validation (IDataErrorInfo Members)
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string message = null;
+
+                switch (columnName)
+                {
+                    case "First_name":
+                        message = StringValidator.CheckIfStartsWithCapitalLetter(this.First_name);
+                        break;
+                    case "Last_name":
+                        message = StringValidator.CheckIfStartsWithCapitalLetter(this.Last_name);
+                        break;
+                }
+
+                return message;
+            }
+        }
+
+        public override bool IsValid()
+        {
+            if (this["First_name"] == null && this["Last_name"] == null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         #endregion
     }
 }

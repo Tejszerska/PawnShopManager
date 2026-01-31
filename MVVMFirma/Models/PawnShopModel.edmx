@@ -127,6 +127,7 @@
           <Property Name="shift_end" Type="datetime2" Precision="7" />
           <Property Name="notes" Type="nvarchar" MaxLength="500" />
           <Property Name="history_id" Type="int" Nullable="false" />
+          <Property Name="is_active" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="FinalizationSources">
           <Key>
@@ -177,8 +178,8 @@
           <Property Name="sale_price" Type="decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="condition_id" Type="int" Nullable="false" />
           <Property Name="acquisition_source_type_id" Type="int" Nullable="false" />
-          <Property Name="acquisition_source_id" Type="int" Nullable="false" />
-          <Property Name="current_branch_id" Type="int" Nullable="false" />
+          <Property Name="acquisition_source_id" Type="int" />
+          <Property Name="current_branch_id" Type="int" />
           <Property Name="item_status_id" Type="int" Nullable="false" />
           <Property Name="history_id" Type="int" Nullable="false" />
           <Property Name="is_active" Type="bit" Nullable="false" />
@@ -270,7 +271,6 @@
             <PropertyRef Name="payment_id" />
           </Key>
           <Property Name="payment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="reference_id" Type="int" Nullable="false" />
           <Property Name="payment_date" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="amount" Type="decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="payment_method_id" Type="int" Nullable="false" />
@@ -361,6 +361,7 @@
           <Property Name="is_active" Type="bit" Nullable="false" />
           <Property Name="order_index" Type="int" Nullable="false" />
           <Property Name="history_id" Type="int" Nullable="false" />
+          <Property Name="sale_type" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -420,54 +421,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EmployeeS__branc__440B1D61">
-          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
-          <End Role="EmployeeShifts" Type="Self.EmployeeShifts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Branches">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="EmployeeShifts">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__EmployeeS__emplo__4316F928">
-          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
-          <End Role="EmployeeShifts" Type="Self.EmployeeShifts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="EmployeeShifts">
-              <PropertyRef Name="employee_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Employees__histo__403A8C7D">
-          <End Role="RecordHistory" Type="Self.RecordHistory" Multiplicity="1" />
-          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RecordHistory">
-              <PropertyRef Name="history_id" />
-            </Principal>
-            <Dependent Role="Employees">
-              <PropertyRef Name="history_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__EmployeeS__histo__44FF419A">
-          <End Role="RecordHistory" Type="Self.RecordHistory" Multiplicity="1" />
-          <End Role="EmployeeShifts" Type="Self.EmployeeShifts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RecordHistory">
-              <PropertyRef Name="history_id" />
-            </Principal>
-            <Dependent Role="EmployeeShifts">
-              <PropertyRef Name="history_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__InterestR__histo__5BE2A6F2">
           <End Role="RecordHistory" Type="Self.RecordHistory" Multiplicity="1" />
           <End Role="InterestRates" Type="Self.InterestRates" Multiplicity="*" />
@@ -493,7 +446,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Items__current_b__5165187F">
-          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
           <End Role="Items" Type="Self.Items" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Branches">
@@ -876,15 +829,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Employees_EmployeeRoles">
-          <End Role="EmployeeRoles" Type="Self.EmployeeRoles" Multiplicity="1" />
-          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+        <Association Name="FK_EmployeeShifts_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="EmployeeShifts" Type="Self.EmployeeShifts" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EmployeeRoles">
-              <PropertyRef Name="employee_role_id" />
+            <Principal Role="Employees">
+              <PropertyRef Name="employee_id" />
             </Principal>
-            <Dependent Role="Employees">
-              <PropertyRef Name="employee_role_id" />
+            <Dependent Role="EmployeeShifts">
+              <PropertyRef Name="employee_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -972,7 +925,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OnlineSaleOffers_OnlinePlatforms1">
+        <Association Name="FK_OnlineSaleOffers_OnlinePlatforms">
           <End Role="OnlinePlatforms" Type="Self.OnlinePlatforms" Multiplicity="1" />
           <End Role="OnlineSaleOffers" Type="Self.OnlineSaleOffers" Multiplicity="*" />
           <ReferentialConstraint>
@@ -981,18 +934,6 @@
             </Principal>
             <Dependent Role="OnlineSaleOffers">
               <PropertyRef Name="platform_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OnlineSaleOffers_SalesStatuses">
-          <End Role="SalesStatuses" Type="Self.SalesStatuses" Multiplicity="1" />
-          <End Role="OnlineSaleOffers" Type="Self.OnlineSaleOffers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesStatuses">
-              <PropertyRef Name="sales_status_id" />
-            </Principal>
-            <Dependent Role="OnlineSaleOffers">
-              <PropertyRef Name="status_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1125,22 +1066,6 @@
           <AssociationSet Name="FK__Clients__history__48CFD27E" Association="Self.FK__Clients__history__48CFD27E">
             <End Role="RecordHistory" EntitySet="RecordHistory" />
             <End Role="Clients" EntitySet="Clients" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EmployeeS__branc__440B1D61" Association="Self.FK__EmployeeS__branc__440B1D61">
-            <End Role="Branches" EntitySet="Branches" />
-            <End Role="EmployeeShifts" EntitySet="EmployeeShifts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EmployeeS__emplo__4316F928" Association="Self.FK__EmployeeS__emplo__4316F928">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="EmployeeShifts" EntitySet="EmployeeShifts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Employees__histo__403A8C7D" Association="Self.FK__Employees__histo__403A8C7D">
-            <End Role="RecordHistory" EntitySet="RecordHistory" />
-            <End Role="Employees" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EmployeeS__histo__44FF419A" Association="Self.FK__EmployeeS__histo__44FF419A">
-            <End Role="RecordHistory" EntitySet="RecordHistory" />
-            <End Role="EmployeeShifts" EntitySet="EmployeeShifts" />
           </AssociationSet>
           <AssociationSet Name="FK__InterestR__histo__5BE2A6F2" Association="Self.FK__InterestR__histo__5BE2A6F2">
             <End Role="RecordHistory" EntitySet="RecordHistory" />
@@ -1278,9 +1203,9 @@
             <End Role="RecordHistory" EntitySet="RecordHistory" />
             <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_Employees_EmployeeRoles" Association="Self.FK_Employees_EmployeeRoles">
-            <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
+          <AssociationSet Name="FK_EmployeeShifts_Employees" Association="Self.FK_EmployeeShifts_Employees">
             <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployeeShifts" EntitySet="EmployeeShifts" />
           </AssociationSet>
           <AssociationSet Name="FK_FinalizationSources_RecordHistory" Association="Self.FK_FinalizationSources_RecordHistory">
             <End Role="RecordHistory" EntitySet="RecordHistory" />
@@ -1310,12 +1235,8 @@
             <End Role="RecordHistory" EntitySet="RecordHistory" />
             <End Role="OnlinePlatforms" EntitySet="OnlinePlatforms" />
           </AssociationSet>
-          <AssociationSet Name="FK_OnlineSaleOffers_OnlinePlatforms1" Association="Self.FK_OnlineSaleOffers_OnlinePlatforms1">
+          <AssociationSet Name="FK_OnlineSaleOffers_OnlinePlatforms" Association="Self.FK_OnlineSaleOffers_OnlinePlatforms">
             <End Role="OnlinePlatforms" EntitySet="OnlinePlatforms" />
-            <End Role="OnlineSaleOffers" EntitySet="OnlineSaleOffers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OnlineSaleOffers_SalesStatuses" Association="Self.FK_OnlineSaleOffers_SalesStatuses">
-            <End Role="SalesStatuses" EntitySet="SalesStatuses" />
             <End Role="OnlineSaleOffers" EntitySet="OnlineSaleOffers" />
           </AssociationSet>
           <AssociationSet Name="FK_PawnLoans_ContractStatuses" Association="Self.FK_PawnLoans_ContractStatuses">
@@ -1391,7 +1312,6 @@
           <Property Name="is_active" Type="Boolean" Nullable="false" />
           <Property Name="history_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RecordHistory" Relationship="Self.FK__Branches__histor__3B75D760" FromRole="Branches" ToRole="RecordHistory" />
-          <NavigationProperty Name="EmployeeShifts" Relationship="Self.FK__EmployeeS__branc__440B1D61" FromRole="Branches" ToRole="EmployeeShifts" />
           <NavigationProperty Name="Items" Relationship="Self.FK__Items__current_b__5165187F" FromRole="Branches" ToRole="Items" />
         </EntityType>
         <EntityType Name="Categories">
@@ -1472,7 +1392,6 @@
           <Property Name="order_index" Type="Int32" Nullable="false" />
           <Property Name="history_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RecordHistory" Relationship="Self.FK_EmployeeRoles_RecordHistory" FromRole="EmployeeRoles" ToRole="RecordHistory" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK_Employees_EmployeeRoles" FromRole="EmployeeRoles" ToRole="Employees" />
         </EntityType>
         <EntityType Name="Employees">
           <Key>
@@ -1485,10 +1404,8 @@
           <Property Name="is_active" Type="Boolean" Nullable="false" />
           <Property Name="history_id" Type="Int32" Nullable="false" />
           <Property Name="employee_role_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="EmployeeRoles" Relationship="Self.FK_Employees_EmployeeRoles" FromRole="Employees" ToRole="EmployeeRoles" />
-          <NavigationProperty Name="EmployeeShifts" Relationship="Self.FK__EmployeeS__emplo__4316F928" FromRole="Employees" ToRole="EmployeeShifts" />
-          <NavigationProperty Name="RecordHistory" Relationship="Self.FK__Employees__histo__403A8C7D" FromRole="Employees" ToRole="RecordHistory" />
           <NavigationProperty Name="PriceHistory" Relationship="Self.FK__PriceHist__chang__5629CD9C" FromRole="Employees" ToRole="PriceHistory" />
+          <NavigationProperty Name="EmployeeShifts" Relationship="Self.FK_EmployeeShifts_Employees" FromRole="Employees" ToRole="EmployeeShifts" />
         </EntityType>
         <EntityType Name="EmployeeShifts">
           <Key>
@@ -1501,9 +1418,8 @@
           <Property Name="shift_end" Type="DateTime" Precision="7" />
           <Property Name="notes" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="history_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Branches" Relationship="Self.FK__EmployeeS__branc__440B1D61" FromRole="EmployeeShifts" ToRole="Branches" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK__EmployeeS__emplo__4316F928" FromRole="EmployeeShifts" ToRole="Employees" />
-          <NavigationProperty Name="RecordHistory" Relationship="Self.FK__EmployeeS__histo__44FF419A" FromRole="EmployeeShifts" ToRole="RecordHistory" />
+          <Property Name="is_active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_EmployeeShifts_Employees" FromRole="EmployeeShifts" ToRole="Employees" />
         </EntityType>
         <EntityType Name="FinalizationSources">
           <Key>
@@ -1560,8 +1476,8 @@
           <Property Name="sale_price" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="condition_id" Type="Int32" Nullable="false" />
           <Property Name="acquisition_source_type_id" Type="Int32" Nullable="false" />
-          <Property Name="acquisition_source_id" Type="Int32" Nullable="false" />
-          <Property Name="current_branch_id" Type="Int32" Nullable="false" />
+          <Property Name="acquisition_source_id" Type="Int32" />
+          <Property Name="current_branch_id" Type="Int32" />
           <Property Name="item_status_id" Type="Int32" Nullable="false" />
           <Property Name="history_id" Type="Int32" Nullable="false" />
           <Property Name="is_active" Type="Boolean" Nullable="false" />
@@ -1603,7 +1519,7 @@
           <Property Name="order_index" Type="Int32" Nullable="false" />
           <Property Name="history_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RecordHistory" Relationship="Self.FK_OnlinePlatforms_RecordHistory" FromRole="OnlinePlatforms" ToRole="RecordHistory" />
-          <NavigationProperty Name="OnlineSaleOffers" Relationship="Self.FK_OnlineSaleOffers_OnlinePlatforms1" FromRole="OnlinePlatforms" ToRole="OnlineSaleOffers" />
+          <NavigationProperty Name="OnlineSaleOffers" Relationship="Self.FK_OnlineSaleOffers_OnlinePlatforms" FromRole="OnlinePlatforms" ToRole="OnlineSaleOffers" />
         </EntityType>
         <EntityType Name="OnlineSaleOffers">
           <Key>
@@ -1624,10 +1540,9 @@
           <Property Name="is_active" Type="Boolean" Nullable="false" />
           <Property Name="history_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Items" Relationship="Self.FK__OnlineSal__item___6FE99F9F" FromRole="OnlineSaleOffers" ToRole="Items" />
-          <NavigationProperty Name="OnlinePlatforms" Relationship="Self.FK_OnlineSaleOffers_OnlinePlatforms1" FromRole="OnlineSaleOffers" ToRole="OnlinePlatforms" />
+          <NavigationProperty Name="OnlinePlatforms" Relationship="Self.FK_OnlineSaleOffers_OnlinePlatforms" FromRole="OnlineSaleOffers" ToRole="OnlinePlatforms" />
           <NavigationProperty Name="RecordHistory" Relationship="Self.FK__OnlineSal__histo__71D1E811" FromRole="OnlineSaleOffers" ToRole="RecordHistory" />
           <NavigationProperty Name="Sales" Relationship="Self.FK__Sales__online_of__787EE5A0" FromRole="OnlineSaleOffers" ToRole="Sales" />
-          <NavigationProperty Name="SalesStatuses" Relationship="Self.FK_OnlineSaleOffers_SalesStatuses" FromRole="OnlineSaleOffers" ToRole="SalesStatuses" />
         </EntityType>
         <EntityType Name="PawnLoanItems">
           <Key>
@@ -1685,7 +1600,6 @@
             <PropertyRef Name="payment_id" />
           </Key>
           <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="reference_id" Type="Int32" Nullable="false" />
           <Property Name="payment_date" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="amount" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="payment_method_id" Type="Int32" Nullable="false" />
@@ -1760,8 +1674,6 @@
           <NavigationProperty Name="ContractStatuses" Relationship="Self.FK_ContractStatuses_RecordHistory" FromRole="RecordHistory" ToRole="ContractStatuses" />
           <NavigationProperty Name="DocumentTypes" Relationship="Self.FK_DocumentTypes_RecordHistory" FromRole="RecordHistory" ToRole="DocumentTypes" />
           <NavigationProperty Name="EmployeeRoles" Relationship="Self.FK_EmployeeRoles_RecordHistory" FromRole="RecordHistory" ToRole="EmployeeRoles" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK__Employees__histo__403A8C7D" FromRole="RecordHistory" ToRole="Employees" />
-          <NavigationProperty Name="EmployeeShifts" Relationship="Self.FK__EmployeeS__histo__44FF419A" FromRole="RecordHistory" ToRole="EmployeeShifts" />
           <NavigationProperty Name="FinalizationSources" Relationship="Self.FK_FinalizationSources_RecordHistory" FromRole="RecordHistory" ToRole="FinalizationSources" />
           <NavigationProperty Name="InterestRates" Relationship="Self.FK__InterestR__histo__5BE2A6F2" FromRole="RecordHistory" ToRole="InterestRates" />
           <NavigationProperty Name="ItemConditions" Relationship="Self.FK_ItemConditions_RecordHistory" FromRole="RecordHistory" ToRole="ItemConditions" />
@@ -1823,7 +1735,7 @@
           <Property Name="is_active" Type="Boolean" Nullable="false" />
           <Property Name="order_index" Type="Int32" Nullable="false" />
           <Property Name="history_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="OnlineSaleOffers" Relationship="Self.FK_OnlineSaleOffers_SalesStatuses" FromRole="SalesStatuses" ToRole="OnlineSaleOffers" />
+          <Property Name="sale_type" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="RecordHistory" Relationship="Self.FK_SalesStatuses_RecordHistory" FromRole="SalesStatuses" ToRole="RecordHistory" />
           <NavigationProperty Name="Sales" Relationship="Self.FK_Sales_SalesStatuses" FromRole="SalesStatuses" ToRole="Sales" />
         </EntityType>
@@ -1897,20 +1809,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EmployeeS__branc__440B1D61">
-          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
-          <End Role="EmployeeShifts" Type="Self.EmployeeShifts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Branches">
-              <PropertyRef Name="branch_id" />
-            </Principal>
-            <Dependent Role="EmployeeShifts">
-              <PropertyRef Name="branch_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Items__current_b__5165187F">
-          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
           <End Role="Items" Type="Self.Items" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Branches">
@@ -2065,42 +1965,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Employees_EmployeeRoles">
-          <End Role="EmployeeRoles" Type="Self.EmployeeRoles" Multiplicity="1" />
-          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeRoles">
-              <PropertyRef Name="employee_role_id" />
-            </Principal>
-            <Dependent Role="Employees">
-              <PropertyRef Name="employee_role_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__EmployeeS__emplo__4316F928">
-          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
-          <End Role="EmployeeShifts" Type="Self.EmployeeShifts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="EmployeeShifts">
-              <PropertyRef Name="employee_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Employees__histo__403A8C7D">
-          <End Role="RecordHistory" Type="Self.RecordHistory" Multiplicity="1" />
-          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RecordHistory">
-              <PropertyRef Name="history_id" />
-            </Principal>
-            <Dependent Role="Employees">
-              <PropertyRef Name="history_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__PriceHist__chang__5629CD9C">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="PriceHistory" Type="Self.PriceHistory" Multiplicity="*" />
@@ -2113,15 +1977,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__EmployeeS__histo__44FF419A">
-          <End Role="RecordHistory" Type="Self.RecordHistory" Multiplicity="1" />
+        <Association Name="FK_EmployeeShifts_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="EmployeeShifts" Type="Self.EmployeeShifts" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="RecordHistory">
-              <PropertyRef Name="history_id" />
+            <Principal Role="Employees">
+              <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="EmployeeShifts">
-              <PropertyRef Name="history_id" />
+              <PropertyRef Name="employee_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2305,7 +2169,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OnlineSaleOffers_OnlinePlatforms1">
+        <Association Name="FK_OnlineSaleOffers_OnlinePlatforms">
           <End Role="OnlinePlatforms" Type="Self.OnlinePlatforms" Multiplicity="1" />
           <End Role="OnlineSaleOffers" Type="Self.OnlineSaleOffers" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2338,18 +2202,6 @@
             </Principal>
             <Dependent Role="Sales">
               <PropertyRef Name="online_offer_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OnlineSaleOffers_SalesStatuses">
-          <End Role="SalesStatuses" Type="Self.SalesStatuses" Multiplicity="1" />
-          <End Role="OnlineSaleOffers" Type="Self.OnlineSaleOffers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesStatuses">
-              <PropertyRef Name="sales_status_id" />
-            </Principal>
-            <Dependent Role="OnlineSaleOffers">
-              <PropertyRef Name="status_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2595,10 +2447,6 @@
             <End Role="RecordHistory" EntitySet="RecordHistory" />
             <End Role="Branches" EntitySet="Branches" />
           </AssociationSet>
-          <AssociationSet Name="FK__EmployeeS__branc__440B1D61" Association="Self.FK__EmployeeS__branc__440B1D61">
-            <End Role="Branches" EntitySet="Branches" />
-            <End Role="EmployeeShifts" EntitySet="EmployeeShifts" />
-          </AssociationSet>
           <AssociationSet Name="FK__Items__current_b__5165187F" Association="Self.FK__Items__current_b__5165187F">
             <End Role="Branches" EntitySet="Branches" />
             <End Role="Items" EntitySet="Items" />
@@ -2651,24 +2499,12 @@
             <End Role="RecordHistory" EntitySet="RecordHistory" />
             <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_Employees_EmployeeRoles" Association="Self.FK_Employees_EmployeeRoles">
-            <End Role="EmployeeRoles" EntitySet="EmployeeRoles" />
-            <End Role="Employees" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK__EmployeeS__emplo__4316F928" Association="Self.FK__EmployeeS__emplo__4316F928">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="EmployeeShifts" EntitySet="EmployeeShifts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Employees__histo__403A8C7D" Association="Self.FK__Employees__histo__403A8C7D">
-            <End Role="RecordHistory" EntitySet="RecordHistory" />
-            <End Role="Employees" EntitySet="Employees" />
-          </AssociationSet>
           <AssociationSet Name="FK__PriceHist__chang__5629CD9C" Association="Self.FK__PriceHist__chang__5629CD9C">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="PriceHistory" EntitySet="PriceHistory" />
           </AssociationSet>
-          <AssociationSet Name="FK__EmployeeS__histo__44FF419A" Association="Self.FK__EmployeeS__histo__44FF419A">
-            <End Role="RecordHistory" EntitySet="RecordHistory" />
+          <AssociationSet Name="FK_EmployeeShifts_Employees" Association="Self.FK_EmployeeShifts_Employees">
+            <End Role="Employees" EntitySet="Employees" />
             <End Role="EmployeeShifts" EntitySet="EmployeeShifts" />
           </AssociationSet>
           <AssociationSet Name="FK_FinalizationSources_RecordHistory" Association="Self.FK_FinalizationSources_RecordHistory">
@@ -2731,7 +2567,7 @@
             <End Role="RecordHistory" EntitySet="RecordHistory" />
             <End Role="OnlinePlatforms" EntitySet="OnlinePlatforms" />
           </AssociationSet>
-          <AssociationSet Name="FK_OnlineSaleOffers_OnlinePlatforms1" Association="Self.FK_OnlineSaleOffers_OnlinePlatforms1">
+          <AssociationSet Name="FK_OnlineSaleOffers_OnlinePlatforms" Association="Self.FK_OnlineSaleOffers_OnlinePlatforms">
             <End Role="OnlinePlatforms" EntitySet="OnlinePlatforms" />
             <End Role="OnlineSaleOffers" EntitySet="OnlineSaleOffers" />
           </AssociationSet>
@@ -2742,10 +2578,6 @@
           <AssociationSet Name="FK__Sales__online_of__787EE5A0" Association="Self.FK__Sales__online_of__787EE5A0">
             <End Role="OnlineSaleOffers" EntitySet="OnlineSaleOffers" />
             <End Role="Sales" EntitySet="Sales" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OnlineSaleOffers_SalesStatuses" Association="Self.FK_OnlineSaleOffers_SalesStatuses">
-            <End Role="SalesStatuses" EntitySet="SalesStatuses" />
-            <End Role="OnlineSaleOffers" EntitySet="OnlineSaleOffers" />
           </AssociationSet>
           <AssociationSet Name="FK__PawnLoanI__histo__6754599E" Association="Self.FK__PawnLoanI__histo__6754599E">
             <End Role="RecordHistory" EntitySet="RecordHistory" />
@@ -2948,6 +2780,7 @@
                 <ScalarProperty Name="shift_end" ColumnName="shift_end" />
                 <ScalarProperty Name="notes" ColumnName="notes" />
                 <ScalarProperty Name="history_id" ColumnName="history_id" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3102,7 +2935,6 @@
             <EntityTypeMapping TypeName="PawnShopModel.Payments">
               <MappingFragment StoreEntitySet="Payments">
                 <ScalarProperty Name="payment_id" ColumnName="payment_id" />
-                <ScalarProperty Name="reference_id" ColumnName="reference_id" />
                 <ScalarProperty Name="payment_date" ColumnName="payment_date" />
                 <ScalarProperty Name="amount" ColumnName="amount" />
                 <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
@@ -3200,6 +3032,7 @@
                 <ScalarProperty Name="is_active" ColumnName="is_active" />
                 <ScalarProperty Name="order_index" ColumnName="order_index" />
                 <ScalarProperty Name="history_id" ColumnName="history_id" />
+                <ScalarProperty Name="sale_type" ColumnName="sale_type" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

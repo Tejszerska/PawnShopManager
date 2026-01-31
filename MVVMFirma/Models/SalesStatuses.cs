@@ -17,7 +17,6 @@ namespace MVVMFirma.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SalesStatuses()
         {
-            this.OnlineSaleOffers = new HashSet<OnlineSaleOffers>();
             this.Sales = new HashSet<Sales>();
         }
     
@@ -28,9 +27,8 @@ namespace MVVMFirma.Models
         public bool is_active { get; set; }
         public int order_index { get; set; }
         public int history_id { get; set; }
+        public string sale_type { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OnlineSaleOffers> OnlineSaleOffers { get; set; }
         public virtual RecordHistory RecordHistory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sales> Sales { get; set; }

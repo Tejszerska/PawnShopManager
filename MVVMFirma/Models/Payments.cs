@@ -21,7 +21,6 @@ namespace MVVMFirma.Models
         }
     
         public int payment_id { get; set; }
-        public int reference_id { get; set; }
         public System.DateTime payment_date { get; set; }
         public decimal amount { get; set; }
         public int payment_method_id { get; set; }

@@ -14,7 +14,7 @@
                             <RowDefinition Height="*"/> <!--* oznacza pozostały obszar-->
                         </Grid.RowDefinitions>
                         <ToolBar Grid.Row="0" Height="30" Margin="0,2,0,2">
-                            <ToggleButton Content="Add" Height="30" Width="70" Foreground="{DynamicResource MainText}"/>
+                            <ToggleButton Content="Add" Height="30" Width="70" Command="{Binding AddCommand}" Foreground="{DynamicResource MainText}"/>
                             <ToggleButton Content="Edit" Height="30" Width="70" Foreground="{DynamicResource MainText}"/>
                             <ToggleButton Content="Delete" Height="30" Width="70" Foreground="{DynamicResource MainText}"/>
                             <ToggleButton Content="Refresh" Height="30" Width="70" Command="{Binding LoadCommand}" Foreground="{DynamicResource MainText}"/>

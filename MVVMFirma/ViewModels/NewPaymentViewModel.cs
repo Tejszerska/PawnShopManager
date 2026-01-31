@@ -17,23 +17,12 @@ namespace MVVMFirma.ViewModels
         {
             base.DisplayName = "New Payment";
             item = new Payments();
+            Payment_Date = DateTime.Now;
         }
         #endregion
 
         #region Properties
 
-        public int Reference_Id
-        {
-            get { return item.reference_id; }
-            set
-            {
-                if (value != item.reference_id)
-                {
-                    item.reference_id = value;
-                    OnPropertyChanged(() => Reference_Id);
-                }
-            }
-        }
 
         public DateTime Payment_Date
         {
@@ -87,7 +76,13 @@ namespace MVVMFirma.ViewModels
             }
         }
 
-
+        public IQueryable<PaymentMethods> PaymentMethodsItems
+        {
+            get
+            {
+                return pawnShopEntities.PaymentMethods.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
 
         #endregion
 

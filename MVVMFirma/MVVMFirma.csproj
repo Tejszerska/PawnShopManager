@@ -45,11 +45,23 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
@@ -57,6 +69,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -80,13 +95,13 @@
     </Compile>
     <Compile Include="Helper\BaseCommand.cs" />
     <Compile Include="Models\AcquisitionSourceTypes.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AddressSources.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Branches.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BussinessLogic\CategoriesB.cs" />
     <Compile Include="Models\BussinessLogic\CategoryStatsSummaryB.cs" />
@@ -95,25 +110,25 @@
     <Compile Include="Models\BussinessLogic\InventoryAgingB.cs" />
     <Compile Include="Models\BussinessLogic\PawnLoanSummaryB.cs" />
     <Compile Include="Models\Categories.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Clients.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractStatuses.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DocumentTypes.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeRoles.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employees.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeShifts.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EntitiesForView\CategoriesExtendedView.cs" />
     <Compile Include="Models\EntitiesForView\CategoryStatistics.cs" />
@@ -125,84 +140,90 @@
     <Compile Include="Models\EntitiesForView\OnlineSaleOffersExtendedView.cs" />
     <Compile Include="Models\EntitiesForView\PawnItemForAllView.cs" />
     <Compile Include="Models\EntitiesForView\PawnLoanForAllView.cs" />
+    <Compile Include="Models\EntitiesForView\PawnLoanItemExtended .cs" />
     <Compile Include="Models\EntitiesForView\PaymentsExtendedView.cs" />
     <Compile Include="Models\EntitiesForView\PriceHistoryExtededView.cs" />
     <Compile Include="Models\EntitiesForView\PurchaseContractForAllView.cs" />
+    <Compile Include="Models\EntitiesForView\PurchaseContractItemExtended.cs" />
     <Compile Include="Models\EntitiesForView\RecordHistoryExtendedView.cs" />
     <Compile Include="Models\EntitiesForView\SaleItemForAllView.cs" />
     <Compile Include="Models\EntitiesForView\SalesForAllView.cs" />
+    <Compile Include="Models\EntitiesForView\SalesItemExtended.cs" />
     <Compile Include="Models\FinalizationSources.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InterestRates.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ItemConditions.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Items.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ItemStatuses.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OnlinePlatforms.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OnlineSaleOffers.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PawnLoanItems.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PawnLoans.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PawnShop.Context.cs">
+    <Compile Include="Models\PawnShopModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PawnShop.Context.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PawnShop.cs">
+    <Compile Include="Models\PawnShopModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PawnShop.Designer.cs">
+    <Compile Include="Models\PawnShopModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PawnShop.edmx</DependentUpon>
+      <DependentUpon>PawnShopModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\PaymentMethods.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Payments.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PriceHistory.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PurchaseContractItems.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PurchaseContracts.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RecordHistory.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sales.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalesItems.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalesStatuses.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>PawnShop.tt</DependentUpon>
+      <DependentUpon>PawnShopModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Validators\BusinessValidator.cs" />
+    <Compile Include="Models\Validators\StringValidator.cs" />
+    <Compile Include="Models\Validators\Validator.cs" />
     <Compile Include="ViewModels\Abstract\AllViewModel.cs" />
     <Compile Include="ViewModels\Abstract\OneViewModel.cs" />
     <Compile Include="ViewModels\AllBranchesViewModel.cs" />
@@ -371,12 +392,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <EntityDeploy Include="Models\PawnShop.edmx">
+    <EntityDeploy Include="Models\PawnShopModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PawnShop.Designer.cs</LastGenOutput>
+      <LastGenOutput>PawnShopModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Models\PawnShop.edmx.diagram">
-      <DependentUpon>PawnShop.edmx</DependentUpon>
+    <None Include="Models\PawnShopModel.edmx.diagram">
+      <DependentUpon>PawnShopModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -546,21 +567,22 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\logo-dark.png" />
     <Resource Include="Images\logo-light.png" />
     <Resource Include="icon.ico" />
     <Resource Include="Images\icon.ico" />
-    <Content Include="Models\PawnShop.Context.tt">
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\PawnShopModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PawnShop.edmx</DependentUpon>
-      <LastGenOutput>PawnShop.Context.cs</LastGenOutput>
+      <DependentUpon>PawnShopModel.edmx</DependentUpon>
+      <LastGenOutput>PawnShopModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\PawnShop.tt">
+    <Content Include="Models\PawnShopModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PawnShop.edmx</DependentUpon>
-      <LastGenOutput>PawnShop.cs</LastGenOutput>
+      <DependentUpon>PawnShopModel.edmx</DependentUpon>
+      <LastGenOutput>PawnShopModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

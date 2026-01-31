@@ -5,40 +5,120 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MVVMFirma.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="550" d:DesignWidth="800">
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="200"/>
-        </Grid.ColumnDefinitions>
+        <TabControl Margin="5">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-        </Grid.RowDefinitions>
+            <TabItem Header="1. Select Items">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="0" Content="Sale price" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,8,0,8" Text="{Binding Path=Sale_Price, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Grid.Row="0" Content="+ Add Item" 
+                            Command="{Binding AddItemCommand}" 
+                            Height="30" Width="150" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding SaleItemsList}" 
+          AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                        <DataGrid.Columns>
 
-        <Label Grid.Column="0" Grid.Row="1" Content="Sale date" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Margin="0,8,0,8" Text="{Binding Path=Sale_Date, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Item ID" Binding="{Binding ItemId}" Width="50"/>
 
-        <Label Grid.Column="0" Grid.Row="2" Content="Finalization source ID" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Margin="0,8,0,8" Text="{Binding Path=Finalization_Source_Id, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Item Name" Binding="{Binding ItemName}" Width="*"/>
 
-        <Label Grid.Column="0" Grid.Row="3" Content="Online offer ID" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="3" Margin="0,8,0,8" Text="{Binding Path=Online_Offer_Id, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Item Condition" Binding="{Binding ItemCondition}" Width="*"/>
 
-        <Label Grid.Column="0" Grid.Row="4" Content="Payment ID" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="4" Margin="0,8,0,8" Text="{Binding Path=Payment_Id, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding ItemPrice, StringFormat=C}" Width="100"/>
 
-        <Label Grid.Column="0" Grid.Row="5" Content="Status ID" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="5" Margin="0,8,0,8" Text="{Binding Path=Status_Id, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-        
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0" >
+                        <TextBlock Text="Total: " FontSize="16" FontWeight="Bold" Foreground="{DynamicResource MainText}"/>
+                        <TextBlock Text="{Binding Sale_Price, StringFormat=C}" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource MainText}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="2. Finalization">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Content="Sale Price" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Margin="0,5" IsEnabled="True" Text="{Binding Path=Sale_Price, UpdateSourceTrigger=PropertyChanged, StringFormat=C, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+
+                    <Label Grid.Column="0" Grid.Row="1" Content="Sale Date" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <DatePicker Grid.Column="1" Grid.Row="1" Margin="0,5" SelectedDate="{Binding Path=Sale_Date, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+
+                    <Label Grid.Column="0" Grid.Row="2" Content="Finalization Source" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1" Margin="0,5"
+                          ItemsSource="{Binding FinalizationSourcesItems}"
+                          DisplayMemberPath="name"
+                          SelectedValuePath="finalization_source_id"
+                          SelectedValue="{Binding Finalization_Source_Id, Mode=TwoWay}"
+                          VerticalContentAlignment="Center"/>
+
+                    <Label Grid.Column="0" Grid.Row="3" Content="Select Online Offer" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <Grid Grid.Column="1" Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" IsEnabled="False" Margin="0,5,5,5" Text="{Binding Path=Offer_Title, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Grid.Column="1" Content="..." Width="30" Height="30" Command="{Binding ShowOnlineOffers}"/>
+                    </Grid>
+
+                    <Label Grid.Column="0" Grid.Row="4" Content="Online Offer ID" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBox Grid.Column="1" Grid.Row="4" IsEnabled="False" Margin="0,5" Text="{Binding Path=Online_Offer_Id, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Column="0" Grid.Row="5" Content="Platform" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBox Grid.Column="1" Grid.Row="5" IsEnabled="False" Margin="0,5" Text="{Binding Path=Platform, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Column="0" Grid.Row="6" Content="Payment Date" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <Grid Grid.Column="1" Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" IsEnabled="False" Margin="0,5,5,5" Text="{Binding Path=Payment_Date, UpdateSourceTrigger=PropertyChanged, StringFormat=d}"/>
+                        <Button Grid.Column="1" Content="..." Width="30" Height="30" Command="{Binding ShowPayments}"/>
+                    </Grid>
+
+                    <Label Grid.Column="0" Grid.Row="7" Content="Payment ID" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBox Grid.Column="1" Grid.Row="7" IsEnabled="False" Margin="0,5" Text="{Binding Path=Payment_Id, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Column="0" Grid.Row="8" Content="Payment Method" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBox Grid.Column="1" Grid.Row="8" IsEnabled="False" Margin="0,5" Text="{Binding Path=Payment_Method, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Label Grid.Column="0" Grid.Row="9" Content="Status" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                    <ComboBox Grid.Row="9" Grid.Column="1" Margin="0,5"
+                          ItemsSource="{Binding SalesStatusesItems}"
+                          DisplayMemberPath="name"
+                          SelectedValuePath="sales_status_id"
+                          SelectedValue="{Binding Status_Id, Mode=TwoWay}"
+                          VerticalContentAlignment="Center"/>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
     </Grid>
 </local:OneViewBase>

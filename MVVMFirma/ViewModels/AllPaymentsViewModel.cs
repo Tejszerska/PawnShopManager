@@ -1,3 +1,4 @@
+using GalaSoft.MvvmLight.Messaging;
 using MVVMFirma.Helper;
 using MVVMFirma.Models;
 using MVVMFirma.Models.EntitiesForView;
@@ -92,6 +93,25 @@ namespace MVVMFirma.ViewModels
         {
             base.DisplayName = "Payments";
 
+        }
+        #endregion
+        #region Properties
+        private PaymentsExtendedView _SelectedPayment;
+        public PaymentsExtendedView SelectedPayment
+        {
+            get
+            {
+                return _SelectedPayment;
+            }
+            set
+            {
+                if (value != _SelectedPayment)
+                {
+                    _SelectedPayment = value;
+                    Messenger.Default.Send(_SelectedPayment);
+                    OnRequestClose();
+                }
+            }
         }
         #endregion
     }

@@ -14,12 +14,6 @@ namespace MVVMFirma.Models
     
     public partial class EmployeeRoles
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EmployeeRoles()
-        {
-            this.Employees = new HashSet<Employees>();
-        }
-    
         public int employee_role_id { get; set; }
         public string code { get; set; }
         public string name { get; set; }
@@ -29,7 +23,5 @@ namespace MVVMFirma.Models
         public int history_id { get; set; }
     
         public virtual RecordHistory RecordHistory { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employees> Employees { get; set; }
     }
 }

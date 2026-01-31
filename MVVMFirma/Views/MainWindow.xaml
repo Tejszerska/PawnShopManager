@@ -48,6 +48,7 @@
                     </Style>
                 </MenuItem.ItemContainerStyle>
                 <MenuItem Header="All items" Command="{Binding ShowItemsCommand}"/>
+                <MenuItem Header="New item" Command="{Binding AddItemsCommand}"/>
                 <MenuItem Header="Pawn Loan Items" Command="{Binding ShowPawnItemsCommand}"/>
                 <MenuItem Header="Aging invenory" Command="{Binding ShowInventoryAgingCommand}"/>
                 <MenuItem Header="Price changes" Command="{Binding ShowPriceChangesCommand}"/>

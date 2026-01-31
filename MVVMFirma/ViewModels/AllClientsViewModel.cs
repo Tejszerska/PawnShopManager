@@ -1,3 +1,4 @@
+using GalaSoft.MvvmLight.Messaging;
 using MVVMFirma.Helper;
 using MVVMFirma.Models;
 using MVVMFirma.Models.EntitiesForView;
@@ -101,6 +102,25 @@ namespace MVVMFirma.ViewModels
 
         }
 
+        #endregion
+        #region Properties
+        private ClientsExtendedView _SelectedClient;
+        public ClientsExtendedView SelectedClient
+        {
+            get
+            {
+                return _SelectedClient;
+            }
+            set
+            {
+                if (value != _SelectedClient)
+                {
+                    _SelectedClient = value;
+                    Messenger.Default.Send(_SelectedClient);
+                    OnRequestClose();
+                }
+            }
+        }
         #endregion
     }
 }

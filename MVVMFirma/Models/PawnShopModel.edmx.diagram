@@ -4,42 +4,41 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="281a444dea884fe8a63a697b6daf361c" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="PawnShopModel.AcquisitionSourceTypes" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.AddressSources" Width="1.5" PointX="3" PointY="17.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.Branches" Width="1.5" PointX="3" PointY="20.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.Categories" Width="1.5" PointX="3" PointY="24.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.Clients" Width="1.5" PointX="5.25" PointY="24.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.ContractStatuses" Width="1.5" PointX="3" PointY="27.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.DocumentTypes" Width="1.5" PointX="3" PointY="31.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.EmployeeRoles" Width="1.5" PointX="3" PointY="35.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.Employees" Width="1.5" PointX="5.25" PointY="36.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.EmployeeShifts" Width="1.5" PointX="8.25" PointY="28.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.FinalizationSources" Width="1.5" PointX="3" PointY="38.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.InterestRates" Width="1.5" PointX="3" PointY="42.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.ItemConditions" Width="1.5" PointX="3" PointY="45.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.Items" Width="1.5" PointX="5.25" PointY="30.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.ItemStatuses" Width="1.5" PointX="3" PointY="49.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.OnlinePlatforms" Width="1.5" PointX="3" PointY="52.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.OnlineSaleOffers" Width="1.5" PointX="7.5" PointY="44.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.PawnLoanItems" Width="1.5" PointX="7.5" PointY="34.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.PawnLoans" Width="1.5" PointX="10.5" PointY="27.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.PaymentMethods" Width="1.5" PointX="3" PointY="56.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.Payments" Width="1.5" PointX="5.25" PointY="45.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.PriceHistory" Width="1.5" PointX="10.5" PointY="33.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.PurchaseContractItems" Width="1.5" PointX="10.5" PointY="37.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.PurchaseContracts" Width="1.5" PointX="13.5" PointY="30.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.RecordHistory" Width="1.5" PointX="0.75" PointY="34.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.Sales" Width="1.5" PointX="9.75" PointY="46.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.SalesItems" Width="1.5" PointX="13" PointY="39" IsExpanded="true" />
-        <EntityTypeShape EntityType="PawnShopModel.SalesStatuses" Width="1.5" PointX="3" PointY="59.75" IsExpanded="true" />
+      <Diagram DiagramId="15826f659f3548cc9335f64e06b71249" Name="Diagram1">
+        <EntityTypeShape EntityType="PawnShopModel.AcquisitionSourceTypes" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.AddressSources" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.Branches" Width="1.5" PointX="3" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.Categories" Width="1.5" PointX="3" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.Clients" Width="1.5" PointX="5.25" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.ContractStatuses" Width="1.5" PointX="3" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.DocumentTypes" Width="1.5" PointX="3" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.EmployeeRoles" Width="1.5" PointX="3" PointY="34.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.Employees" Width="1.5" PointX="5.25" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.EmployeeShifts" Width="1.5" PointX="7.5" PointY="45.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.FinalizationSources" Width="1.5" PointX="3" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.InterestRates" Width="1.5" PointX="3" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.ItemConditions" Width="1.5" PointX="3" PointY="44.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.Items" Width="1.5" PointX="5.25" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.ItemStatuses" Width="1.5" PointX="3" PointY="48.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.OnlinePlatforms" Width="1.5" PointX="3" PointY="51.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.OnlineSaleOffers" Width="1.5" PointX="7.5" PointY="39.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.PawnLoanItems" Width="1.5" PointX="7.5" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.PawnLoans" Width="1.5" PointX="10.5" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.PaymentMethods" Width="1.5" PointX="3" PointY="55.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.Payments" Width="1.5" PointX="5.25" PointY="44.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.PriceHistory" Width="1.5" PointX="7.5" PointY="29.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.PurchaseContractItems" Width="1.5" PointX="10.5" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.PurchaseContracts" Width="1.5" PointX="7.5" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.RecordHistory" Width="1.5" PointX="0.75" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.Sales" Width="1.5" PointX="9.75" PointY="45.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.SalesItems" Width="1.5" PointX="12" PointY="38.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PawnShopModel.SalesStatuses" Width="1.5" PointX="3" PointY="58.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PawnShopModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="PawnShopModel.FK_AcquisitionSourceTypes_RecordHistory" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK_Items_AcquisitionSourceTypes" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK_AddressSources_RecordHistory" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK_Clients_AddressSources" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__Branches__histor__3B75D760" ManuallyRouted="false" />
-        <AssociationConnector Association="PawnShopModel.FK__EmployeeS__branc__440B1D61" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__Items__current_b__5165187F" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__Categorie__histo__4D94879B" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__Categorie__paren__4BAC3F29" ManuallyRouted="false" />
@@ -53,11 +52,8 @@
         <AssociationConnector Association="PawnShopModel.FK_PurchaseContracts_ContractStatuses" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK_DocumentTypes_RecordHistory" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK_EmployeeRoles_RecordHistory" ManuallyRouted="false" />
-        <AssociationConnector Association="PawnShopModel.FK_Employees_EmployeeRoles" ManuallyRouted="false" />
-        <AssociationConnector Association="PawnShopModel.FK__EmployeeS__emplo__4316F928" ManuallyRouted="false" />
-        <AssociationConnector Association="PawnShopModel.FK__Employees__histo__403A8C7D" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__PriceHist__chang__5629CD9C" ManuallyRouted="false" />
-        <AssociationConnector Association="PawnShopModel.FK__EmployeeS__histo__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="PawnShopModel.FK_EmployeeShifts_Employees" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK_FinalizationSources_RecordHistory" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK_Sales_FinalizationSources1" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__InterestR__histo__5BE2A6F2" ManuallyRouted="false" />
@@ -73,10 +69,9 @@
         <AssociationConnector Association="PawnShopModel.FK_Items_ItemStatuses" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK_ItemStatuses_RecordHistory" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK_OnlinePlatforms_RecordHistory" ManuallyRouted="false" />
-        <AssociationConnector Association="PawnShopModel.FK_OnlineSaleOffers_OnlinePlatforms1" ManuallyRouted="false" />
+        <AssociationConnector Association="PawnShopModel.FK_OnlineSaleOffers_OnlinePlatforms" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__OnlineSal__histo__71D1E811" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__Sales__online_of__787EE5A0" ManuallyRouted="false" />
-        <AssociationConnector Association="PawnShopModel.FK_OnlineSaleOffers_SalesStatuses" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__PawnLoanI__histo__6754599E" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__PawnLoanI__pawn___656C112C" ManuallyRouted="false" />
         <AssociationConnector Association="PawnShopModel.FK__PawnLoans__histo__628FA481" ManuallyRouted="false" />

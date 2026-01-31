@@ -32,8 +32,8 @@ namespace MVVMFirma.Models
         public decimal sale_price { get; set; }
         public int condition_id { get; set; }
         public int acquisition_source_type_id { get; set; }
-        public int acquisition_source_id { get; set; }
-        public int current_branch_id { get; set; }
+        public Nullable<int> acquisition_source_id { get; set; }
+        public Nullable<int> current_branch_id { get; set; }
         public int item_status_id { get; set; }
         public int history_id { get; set; }
         public bool is_active { get; set; }

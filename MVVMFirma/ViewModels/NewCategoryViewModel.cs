@@ -1,14 +1,16 @@
 using MVVMFirma.Models;
+using MVVMFirma.Models.Validators;
 using MVVMFirma.ViewModels.Abstract;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MVVMFirma.ViewModels
 {
-    public class NewCategoryViewModel : OneViewModel<Categories>
+    public class NewCategoryViewModel : OneViewModel<Categories>, IDataErrorInfo
     {
         public NewCategoryViewModel()
                         : base()
@@ -44,11 +46,19 @@ namespace MVVMFirma.ViewModels
                 if (value != item.parent_id)
                 {
                     item.parent_id = value;
-                    OnPropertyChanged(() => Parent_ID );
+                    OnPropertyChanged(() => Parent_ID);
                 }
             }
         }
-       
+
+        public IQueryable<Categories> CategoryParentItems
+        {
+            get
+            {
+                return pawnShopEntities.Categories.Where(x => x.is_active == true).ToList().AsQueryable();
+            }
+        }
+
         #endregion
         #region Commends
         // komendy przyciskow zapisz i zamknij
@@ -60,8 +70,41 @@ namespace MVVMFirma.ViewModels
             pawnShopEntities.SaveChanges();
         }
         #endregion
+    
+    #region Validation (IDataErrorInfo Members)
+
+ public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string message = null;
+
+
+                if (columnName == "Name")
+                {
+                    message = StringValidator.CheckIfStartsWithCapitalLetter(this.Name);
+                }
+
+
+                return message;
+            }
+        }
+
+        public override bool IsValid()
+        {
+            if (this["Name"] == null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        #endregion
     }
-
 }
-
 

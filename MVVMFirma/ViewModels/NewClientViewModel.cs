@@ -1,13 +1,15 @@
 using MVVMFirma.Models;
+using MVVMFirma.Models.Validators;
 using MVVMFirma.ViewModels.Abstract;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 namespace MVVMFirma.ViewModels
 {
-    public class NewClientViewModel : OneViewModel<Clients>
+    public class NewClientViewModel : OneViewModel<Clients>, IDataErrorInfo
     {
         #region Constructor
         public NewClientViewModel()
@@ -147,7 +149,23 @@ namespace MVVMFirma.ViewModels
                 }
             }
         }
-        
+
+        public IQueryable<DocumentTypes> DocumentTypesItems
+        {
+            get
+            {
+                return pawnShopEntities.DocumentTypes.Where(ss => ss.is_active == true).ToList().AsQueryable();
+            }
+        }
+
+        public IQueryable<AddressSources> AddressSourcesItems
+        {
+            get
+            {
+                return pawnShopEntities.AddressSources.Where(ss => ss.is_active == true).ToList().AsQueryable();
+            }
+        }
+
         #endregion
         #region Commends
         // komendy przyciskow zapisz i zamknij
@@ -158,6 +176,43 @@ namespace MVVMFirma.ViewModels
             pawnShopEntities.Clients.Add(item);
             pawnShopEntities.SaveChanges();
         }
+        #endregion
+        #region Validation (IDataErrorInfo Members)
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string message = null;
+
+                switch (columnName)
+                {
+                    case "First_name":
+                        message = StringValidator.CheckIfStartsWithCapitalLetter(this.First_name);
+                        break;
+                    case "Last_name":
+                        message = StringValidator.CheckIfStartsWithCapitalLetter(this.Last_name);
+                        break;
+                }
+
+                return message;
+            }
+        }
+
+        public override bool IsValid()
+        {
+            if (this["First_name"] == null && this["Last_name"] == null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         #endregion
     }
 }

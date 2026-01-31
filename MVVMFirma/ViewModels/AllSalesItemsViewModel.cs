@@ -41,7 +41,7 @@ namespace MVVMFirma.ViewModels
         public AllSalesItemsViewModel()
             : base()
         {
-            base.DisplayName = "SalesItems";
+            base.DisplayName = "Sales Items";
         }
 
         #endregion

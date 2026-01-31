@@ -1,3 +1,4 @@
+using GalaSoft.MvvmLight.Messaging;
 using MVVMFirma.Helper;
 using MVVMFirma.Models;
 using System;
@@ -26,6 +27,20 @@ namespace MVVMFirma.ViewModels.Abstract
                 if (_LoadCommand == null) _LoadCommand = new BaseCommand(Load);
                 return _LoadCommand;
             }
+        }
+        private BaseCommand _AddCommand;
+        public ICommand AddCommand
+        {
+            get
+            {
+                if (_AddCommand == null) _AddCommand = new BaseCommand(Add);
+                return _AddCommand;
+            }
+        }
+
+        private void Add()
+        {
+            Messenger.Default.Send(DisplayName + " Add");
         }
         #endregion
         #region Lista

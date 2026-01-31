@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MVVMFirma.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="650" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -23,41 +23,57 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="0" Content="Item ID" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,8,0,8" Text="{Binding Path=Item_Id, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="0" Content="Item Name" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" IsEnabled="False" Margin="0,5,5,5" Text="{Binding Path=Item_name, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Column="1" Content="..." Width="30" Height="30" Command="{Binding ShowItems}"/>
+        </Grid>
 
-        <Label Grid.Column="0" Grid.Row="1" Content="Platform ID" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="1" Margin="0,8,0,8" Text="{Binding Path=Platform_Id, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="1" Content="Item condition" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <TextBox Grid.Column="1" Grid.Row="1" IsEnabled="False" Margin="0,5" Text="{Binding Path=Item_condition, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Grid.Column="0" Grid.Row="2" Content="Offer title" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="2" Margin="0,8,0,8" Text="{Binding Path=Offer_Title, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Item ID" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <TextBox Grid.Column="1" Grid.Row="2" IsEnabled="False" Margin="0,5" Text="{Binding Path=Item_Id, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Grid.Column="0" Grid.Row="3" Content="Listing price" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="3" Margin="0,8,0,8" Text="{Binding Path=Listing_Price, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Platform" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <ComboBox Grid.Row="3" Grid.Column="1" Margin="0,5"
+              ItemsSource="{Binding OnlinePlatformsItems}"
+              DisplayMemberPath="name"
+              SelectedValuePath="platform_id"
+              SelectedValue="{Binding Platform_Id, Mode=TwoWay}" 
+              VerticalContentAlignment="Center"/>
 
-        <Label Grid.Column="0" Grid.Row="4" Content="Listing date" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="4" Margin="0,8,0,8" Text="{Binding Path=Listing_Date, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Offer title" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Margin="0,5" Text="{Binding Path=Offer_Title, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Grid.Column="0" Grid.Row="5" Content="Expiration date" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="5" Margin="0,8,0,8" Text="{Binding Path=Expiration_Date, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Listing price" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Margin="0,5" Text="{Binding Path=Listing_Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
 
-        <Label Grid.Column="0" Grid.Row="6" Content="URL" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="6" Margin="0,8,0,8" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Expiration date" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <DatePicker Grid.Row="6" Grid.Column="1" Margin="0,5"
+            Height="28" 
+            VerticalContentAlignment="Center"
+            SelectedDate="{Binding Expiration_Date , Mode=TwoWay, ValidatesOnDataErrors=True}"/>
 
-        <Label Grid.Column="0" Grid.Row="7" Content="Status ID" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="7" Margin="0,8,0,8" Text="{Binding Path=Status_Id, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="7" Content="URL" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <TextBox Grid.Column="1" Grid.Row="7" Margin="0,5" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Label Grid.Column="0" Grid.Row="8" Content="Views count" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="8" Margin="0,8,0,8" Text="{Binding Path=Views_Count, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="8" Content="Status" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <ComboBox Grid.Row="8" Grid.Column="1" Margin="0,5"
+              ItemsSource="{Binding SalesStatusesItems}"
+              DisplayMemberPath="name"
+              SelectedValuePath="sales_status_id"
+              SelectedValue="{Binding Status_Id, Mode=TwoWay}"
+              VerticalContentAlignment="Center"/>
 
-        <Label Grid.Column="0" Grid.Row="9" Content="Messages count" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="9" Margin="0,8,0,8" Text="{Binding Path=Messages_Count, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <Label Grid.Column="0" Grid.Row="10" Content="Notes" Margin="0,8,0,8"/>
-        <TextBox Grid.Column="1" Grid.Row="10" Margin="0,8,0,8" Text="{Binding Path=Notes, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Column="0" Grid.Row="9" Content="Notes" VerticalAlignment="Center" Margin="0,0,0,5"/>
+        <TextBox Grid.Column="1" Grid.Row="9" Margin="0,5" Text="{Binding Path=Notes, UpdateSourceTrigger=PropertyChanged}"/>
 
     </Grid>
 </local:OneViewBase>

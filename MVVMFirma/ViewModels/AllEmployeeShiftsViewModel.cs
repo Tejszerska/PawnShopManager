@@ -92,7 +92,6 @@ public class AllEmployeeShiftsViewModel : AllViewModel<EmpoloyeeShiftExtendedVie
                      EmployeeShiftId = employeeShift.shift_id,
                      EmployeeFirstName = employeeShift.Employees.first_name,
                      EmployeeLastName = employeeShift.Employees.last_name,
-                     BranchName = employeeShift.Branches.name,
                      ShiftStart = employeeShift.shift_start,
                      ShiftEnd = employeeShift.shift_end,
                      Notes = employeeShift.notes

@@ -1,3 +1,4 @@
+using GalaSoft.MvvmLight.Messaging;
 using MVVMFirma.Models;
 using MVVMFirma.Models.EntitiesForView;
 using MVVMFirma.ViewModels.Abstract;
@@ -126,6 +127,25 @@ public class AllItemsViewModel : AllViewModel<ItemsExtendedView>
 
         }
 
+        #endregion
+        #region Properties
+        private ItemsExtendedView _SelectedItem;
+        public ItemsExtendedView SelectedItem
+        {
+            get
+            {
+                return _SelectedItem;
+            }
+            set
+            {
+                if (value != _SelectedItem)
+                {
+                    _SelectedItem = value;
+                    Messenger.Default.Send(_SelectedItem);
+                    OnRequestClose();
+                }
+            }
+        }
         #endregion
     }
 }

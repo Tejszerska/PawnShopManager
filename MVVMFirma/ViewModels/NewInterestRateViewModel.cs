@@ -1,8 +1,10 @@
 using MVVMFirma.Models;
+using MVVMFirma.Models.Validators;
 using MVVMFirma.ViewModels.Abstract;
+using System.ComponentModel;
 namespace MVVMFirma.ViewModels
 {
-    public class NewInterestRateViewModel : OneViewModel<InterestRates>
+    public class NewInterestRateViewModel : OneViewModel<InterestRates>, IDataErrorInfo
     {
         #region Constructor
         public NewInterestRateViewModel()
@@ -103,6 +105,42 @@ namespace MVVMFirma.ViewModels
             pawnShopEntities.InterestRates.Add(item);
             pawnShopEntities.SaveChanges();
         }
+        #endregion
+        #region Validation (IDataErrorInfo Members)
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string message = null;
+                if(columnName=="Rate_percent")
+                {
+                    message= BusinessValidator.checkPercent(this.Rate_percent);
+                }
+                if(columnName=="Period_days")
+                {
+                    message= BusinessValidator.IsGraterThanZero(this.Period_days);
+                }
+
+
+                return message;
+            }
+        }
+
+        public override bool IsValid()
+        {
+            if (this["Rate_percent"] == null && this["Period_days"] == null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         #endregion
     }
 }

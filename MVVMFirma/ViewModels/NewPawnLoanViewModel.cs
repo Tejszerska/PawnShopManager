@@ -307,7 +307,7 @@ namespace MVVMFirma.ViewModels
             }
         }
         #endregion
-        #region Validation (IDataErrorInfo Members)
+        #region Validation
 
         public string Error
         {
